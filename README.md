@@ -1,6 +1,6 @@
 # keyvault_pipeline
 
-Projeto de azure pipeline com integracao com Azure key vault
+Projeto de azure pipeline com integracao com Azure key vault.
 
 O Azure Key Vault permite que os desenvolvedores armazenem e gerenciem com segurança informações confidenciais.
 
