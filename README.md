@@ -2,7 +2,7 @@
 
 Projeto de azure pipeline com integracao com Azure key vault
 
-O Azure Key Vault permite que os desenvolvedores armazenem e gerenciem com segurança informações confidenciais![image](https://github.com/user-attachments/assets/5fd80d4f-2891-42ba-82d3-c35aced8fbe6)
+O Azure Key Vault permite que os desenvolvedores armazenem e gerenciem com segurança informações confidenciais.
 
 
 pipeline yaml
@@ -40,7 +40,7 @@ jobs:
 
 
 
-Exemplo de arquivo **/appsettings*.json
+Exemplo de arquivo ***/appsettings*.json
 ```
 {
   "ConnectionStrings": {
