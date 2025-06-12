@@ -1,0 +1,33 @@
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: Devops/devops
+      ref: main
+
+jobs: 
+- template: git/ia-review.yaml@templates
+
+
+
+#jobs:
+#- job:
+#  displayName: "JPCompcombr code review"
+#  pool:
+#    vmImage: ubuntu-latest 
+
+#  steps:
+#  - checkout: self
+#    persistCredentials: true
+ 
+#  - task: JPCompcombr@22
+#    displayName: GPTPullRequestReview
+#    inputs:
+#      api_key: 'xxxx'
+#      model: 'gpt-4'
+#      aoi_endpoint: 'https://prbaz.openai.azure.com/openai/deployments/code-review/chat/completions?api-version=2024-06-01'
+#      aoi_tokenMax: 400
+#      aoi_temperature: 0      
+#      file_excludes: 'src/**/*.cplus'      
+#      use_https: true
+#      additional_prompts: 'Se encontrar vulnerabilidade como senha, escreva no final sistema vulveravel'
