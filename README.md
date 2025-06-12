@@ -75,3 +75,5 @@ Exemplo de arquivo **/appsettings.json
   "AllowedHosts": "*"
 }
 ```
+![alt text](https://github.com/jpitapeva/keyvault_pipeline/blob/main/Captura%20de%20tela%202025-06-11%20212823.png)
+
