@@ -1,0 +1,36 @@
+// dotnet add package Azure.Security.KeyVault.Keys
+// dotnet add package Azure.Identity
+
+using Azure.Identity;
+using Azure.Security.KeyVault.Keys;
+using Azure.Security.KeyVault.Keys.Cryptography;
+
+var vaultUri = new Uri("https://poc-keyvault-joaopma.vault.azure.net/");
+
+// Managed Identity em produção (AKS/App Service) ou Azure CLI/VS em dev — sem credenciais fixas
+var credential = new DefaultAzureCredential();
+
+var keyClient = new KeyClient(vaultUri, credential);
+
+// Cria (ou obtém, se já existir) uma chave RSA 2048 no vault
+KeyVaultKey key = await keyClient.CreateRsaKeyAsync(
+    new CreateRsaKeyOptions("chave-config-db") { KeySize = 2048 });
+
+// CryptographyClient opera sobre essa chave específica
+var cryptoClient = new CryptographyClient(key.Id, credential);
+
+// Criptografa um dado sensível (ex.: connection string) com RSA-OAEP
+byte[] dadoOriginal = Encoding.UTF8.GetBytes("Server=...;Password=SuperSecreta123;");
+EncryptResult encryptResult = await cryptoClient.EncryptAsync(
+    EncryptionAlgorithm.RsaOaep, dadoOriginal);
+
+string cifradoBase64 = Convert.ToBase64String(encryptResult.Ciphertext);
+// -> pode ser salvo com segurança em appsettings, banco, etc.
+
+// Depois, para usar o valor: decripta chamando o Key Vault novamente
+byte[] cifrado = Convert.FromBase64String(cifradoBase64);
+DecryptResult decryptResult = await cryptoClient.DecryptAsync(
+    EncryptionAlgorithm.RsaOaep, cifrado);
+
+string dadoDecriptado = Encoding.UTF8.GetString(decryptResult.Plaintext);
+Console.WriteLine(dadoDecriptado); // Server=...;Password=SuperSecreta123;
